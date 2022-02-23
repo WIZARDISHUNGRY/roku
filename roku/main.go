@@ -72,13 +72,8 @@ func GetRokuAddress() (string, error) {
 		if index < 0 || index >= len(devices) {
 			return "", fmt.Errorf("invalid choice: %d", index)
 		}
-		fmt.Println("x", string(char), index, devices[index].Name, devices[index].Addr)
 	}
 
-	// u, err := url.Parse(devices[index].Addr)
-	// if err != nil {
-	// 	return "", err
-	// }
 	return devices[index].Addr, nil
 }
 
