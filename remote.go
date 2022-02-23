@@ -33,13 +33,17 @@ type RokuDevice struct {
 // FindRokuDevices will do and SSDP search to
 // find all Roku devices on the network
 func FindRokuDevices() ([]*RokuDevice, error) {
-	devices, err := ssdp.Search("roku:ecp", 3, "")
+	const searchType = "roku:ecp"
+	devices, err := ssdp.Search(searchType, 3, "")
 	if err != nil {
 		log.Printf("could not find any devices on network: %v", err)
 	}
 
 	res := []*RokuDevice{}
 	for _, d := range devices {
+		if (d.Type) != searchType {
+			continue // hack around ssdp results being weird
+		}
 		u, err := url.Parse(d.Location)
 		if err != nil {
 			return nil, err
